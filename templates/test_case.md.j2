@@ -1,0 +1,16 @@
+# Test Cases
+
+{% for tc in test_cases %}
+## {{ tc.id }}: {{ tc.title }}
+
+Steps:
+{% for step in tc.steps %}
+{{ loop.index }}. {{ step }}
+{% endfor %}
+
+Expected Result:
+{% for result in tc.expected_results %}
+- {{ result }}
+{% endfor %}
+
+{% endfor %}

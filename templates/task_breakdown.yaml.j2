@@ -1,0 +1,24 @@
+tasks:
+{% for task in tasks %}
+  - id: {{ task.id }}
+    title: {{ task.title }}
+    type: {{ task.type }}
+    related_user_story: {{ task.related_user_story }}
+    acceptance_criteria:
+{% for ac in task.acceptance_criteria %}
+      - {{ ac }}
+{% endfor %}
+    estimated_effort: {{ task.estimated_effort }}
+{% if task.files_to_modify %}
+    files_to_modify:
+{% for file in task.files_to_modify %}
+      - {{ file }}
+{% endfor %}
+{% endif %}
+{% if task.out_of_scope %}
+    out_of_scope:
+{% for item in task.out_of_scope %}
+      - {{ item }}
+{% endfor %}
+{% endif %}
+{% endfor %}

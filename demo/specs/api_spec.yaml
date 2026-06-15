@@ -1,0 +1,355 @@
+apis:
+  - name: delete_attachment
+    method: DELETE
+    path: /api/attachments/{attachment_id}
+    permission_required: ATTACHMENT_DELETE
+    request_schema:
+      attachment_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: delete_attachment_operation
+    method: DELETE
+    path: /api/attachment_operations/{attachment_operation_id}
+    permission_required: ATTACHMENT_OPERATION_DELETE
+    request_schema:
+      attachment_operation_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: delete_audit_log
+    method: DELETE
+    path: /api/audit_logs/{audit_log_id}
+    permission_required: AUDIT_LOG_DELETE
+    request_schema:
+      audit_log_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: download_attachment
+    method: GET
+    path: /api/attachments/{attachment_id}
+    permission_required: ATTACHMENT_DOWNLOAD
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: download_attachment_operation
+    method: GET
+    path: /api/attachment_operations/{attachment_operation_id}
+    permission_required: ATTACHMENT_OPERATION_DOWNLOAD
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment_operation: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: download_audit_log
+    method: GET
+    path: /api/audit_logs/{audit_log_id}
+    permission_required: AUDIT_LOG_DOWNLOAD
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      audit_log: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: list_attachment
+    method: GET
+    path: /api/attachments
+    permission_required: ATTACHMENT_LIST
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: list_attachment_operation
+    method: GET
+    path: /api/attachment_operations
+    permission_required: ATTACHMENT_OPERATION_LIST
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment_operation: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: list_audit_log
+    method: GET
+    path: /api/audit_logs
+    permission_required: AUDIT_LOG_LIST
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      audit_log: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: preview_attachment
+    method: GET
+    path: /api/attachments/{attachment_id}
+    permission_required: ATTACHMENT_PREVIEW
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: preview_attachment_operation
+    method: GET
+    path: /api/attachment_operations/{attachment_operation_id}
+    permission_required: ATTACHMENT_OPERATION_PREVIEW
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      attachment_operation: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: preview_audit_log
+    method: GET
+    path: /api/audit_logs/{audit_log_id}
+    permission_required: AUDIT_LOG_PREVIEW
+    request_schema:
+      page: integer
+      page_size: integer
+    response_schema:
+      status: string
+      message: string
+      audit_log: object
+      items: list
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+      - 404
+  - name: print_attachment
+    method: POST
+    path: /api/attachments/print
+    permission_required: ATTACHMENT_PRINT
+    request_schema:
+      attachment_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: print_attachment_operation
+    method: POST
+    path: /api/attachment_operations/print
+    permission_required: ATTACHMENT_OPERATION_PRINT
+    request_schema:
+      attachment_operation_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: print_audit_log
+    method: POST
+    path: /api/audit_logs/print
+    permission_required: AUDIT_LOG_PRINT
+    request_schema:
+      audit_log_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: record_attachment
+    method: POST
+    path: /api/attachments/record
+    permission_required: ATTACHMENT_RECORD
+    request_schema:
+      attachment_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: record_attachment_operation
+    method: POST
+    path: /api/attachment_operations/record
+    permission_required: ATTACHMENT_OPERATION_RECORD
+    request_schema:
+      attachment_operation_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: record_audit_log
+    method: POST
+    path: /api/audit_logs/record
+    permission_required: AUDIT_LOG_RECORD
+    request_schema:
+      audit_log_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: upload_attachment
+    method: POST
+    path: /api/attachments/upload
+    permission_required: ATTACHMENT_UPLOAD
+    request_schema:
+      attachment_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: upload_attachment_operation
+    method: POST
+    path: /api/attachment_operations/upload
+    permission_required: ATTACHMENT_OPERATION_UPLOAD
+    request_schema:
+      attachment_operation_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500
+  - name: upload_audit_log
+    method: POST
+    path: /api/audit_logs/upload
+    permission_required: AUDIT_LOG_UPLOAD
+    request_schema:
+      audit_log_id: string
+      data: object
+      file: binary
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - 400
+      - 401
+      - 403
+      - 500

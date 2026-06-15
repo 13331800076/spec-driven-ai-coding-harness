@@ -1,0 +1,101 @@
+apis:
+  - name: upload_attachment
+    method: POST
+    path: /api/attachments
+    permission_required: ATTACHMENT_UPLOAD
+    request_schema:
+      business_object_type: string
+      business_object_id: string
+      file: binary
+    response_schema:
+      attachment_id: string
+      file_name: string
+      status: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "500"
+
+  - name: preview_attachment
+    method: GET
+    path: /api/attachments/{attachment_id}/preview
+    permission_required: ATTACHMENT_PREVIEW
+    request_schema:
+      attachment_id: string
+    response_schema:
+      preview_url: string
+      status: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "404"
+      - "500"
+
+  - name: download_attachment
+    method: GET
+    path: /api/attachments/{attachment_id}/download
+    permission_required: ATTACHMENT_DOWNLOAD
+    request_schema:
+      attachment_id: string
+    response_schema:
+      download_url: string
+      status: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "404"
+      - "500"
+
+  - name: print_attachment
+    method: GET
+    path: /api/attachments/{attachment_id}/print
+    permission_required: ATTACHMENT_PRINT
+    request_schema:
+      attachment_id: string
+    response_schema:
+      print_url: string
+      status: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "404"
+      - "500"
+
+  - name: delete_attachment
+    method: DELETE
+    path: /api/attachments/{attachment_id}
+    permission_required: ATTACHMENT_DELETE
+    request_schema:
+      attachment_id: string
+    response_schema:
+      status: string
+      message: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "404"
+      - "500"
+
+  - name: list_attachments
+    method: GET
+    path: /api/attachments
+    permission_required: ATTACHMENT_LIST
+    request_schema:
+      business_object_type: string
+      business_object_id: string
+      page: integer
+      page_size: integer
+    response_schema:
+      items: list
+      total: integer
+      status: string
+    error_codes:
+      - "400"
+      - "401"
+      - "403"
+      - "500"

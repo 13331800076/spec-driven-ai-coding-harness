@@ -1,0 +1,17 @@
+# Acceptance Criteria
+
+{% for ac_group in acceptance_criteria_groups %}
+## {{ ac_group.story_id }}: {{ ac_group.story_title }}
+
+{% for ac in ac_group.criteria %}
+- {{ ac.given }}
+- {{ ac.when }}
+- {{ ac.then }}
+{% if ac.and_conditions %}
+{% for condition in ac.and_conditions %}
+- {{ condition }}
+{% endfor %}
+{% endif %}
+
+{% endfor %}
+{% endfor %}

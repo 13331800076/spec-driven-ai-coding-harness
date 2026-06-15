@@ -1,0 +1,9 @@
+# User Stories
+
+{% for story in stories %}
+## {{ story.id }}: {{ story.title }}
+
+As a {{ story.role }},
+I want to {{ story.action }},
+so that {{ story.value }}.
+{% endfor %}

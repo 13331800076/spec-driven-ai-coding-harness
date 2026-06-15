@@ -1,0 +1,93 @@
+tasks:
+  - id: TASK-001
+    title: Implement attachment domain model and database schema
+    type: backend
+    related_user_story: US-001
+    acceptance_criteria:
+      - AC-001
+    estimated_effort: medium
+    files_to_modify:
+      - src/models/attachment.py
+      - src/schemas/attachment.py
+      - migrations/001_create_attachments_table.py
+    out_of_scope:
+      - API implementation
+      - UI components
+
+  - id: TASK-002
+    title: Implement upload attachment API
+    type: backend
+    related_user_story: US-001
+    acceptance_criteria:
+      - AC-001
+      - AC-002
+    estimated_effort: medium
+    files_to_modify:
+      - src/routers/attachments.py
+      - src/services/attachment_service.py
+      - tests/test_upload_attachment.py
+    out_of_scope:
+      - Frontend upload UI
+      - Unrelated APIs
+
+  - id: TASK-003
+    title: Implement preview and download attachment APIs
+    type: backend
+    related_user_story: US-002
+    acceptance_criteria:
+      - AC-003
+    estimated_effort: medium
+    files_to_modify:
+      - src/routers/attachments.py
+      - src/services/attachment_service.py
+      - tests/test_preview_attachment.py
+      - tests/test_download_attachment.py
+    out_of_scope:
+      - Frontend UI
+      - Delete API
+
+  - id: TASK-004
+    title: Implement permission check middleware for attachment operations
+    type: backend
+    related_user_story: US-005
+    acceptance_criteria:
+      - AC-005
+    estimated_effort: medium
+    files_to_modify:
+      - src/auth/permissions.py
+      - src/middleware/auth.py
+      - tests/test_attachment_permission.py
+    out_of_scope:
+      - User management UI
+      - Login flow
+
+  - id: TASK-005
+    title: Implement audit logging for attachment operations
+    type: backend
+    related_user_story: US-006
+    acceptance_criteria:
+      - AC-007
+    estimated_effort: medium
+    files_to_modify:
+      - src/services/audit_service.py
+      - src/middleware/audit_middleware.py
+      - tests/test_audit_logging.py
+    out_of_scope:
+      - Audit log UI
+      - Log retention policy
+
+  - id: TASK-006
+    title: Implement comprehensive pytest test suite for attachment APIs
+    type: test
+    related_user_story: US-001
+    acceptance_criteria:
+      - AC-001
+      - AC-002
+    estimated_effort: large
+    files_to_modify:
+      - tests/conftest.py
+      - tests/test_upload_attachment.py
+      - tests/test_delete_attachment.py
+      - tests/test_permission.py
+    out_of_scope:
+      - Production code changes

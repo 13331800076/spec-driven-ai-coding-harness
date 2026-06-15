@@ -1,0 +1,120 @@
+domain:
+  modules:
+  - inventory
+  - procurement
+  - sales
+  - support
+  business_objects:
+  - attachment
+  - attachment_operation
+  - audit_log
+  - delete_attachment
+  - download_attachment
+  - inventory
+  - permission
+  - preview_attachment
+  - print_attachment
+  - should_record
+  - upload_attachment
+  - user
+  roles:
+  - business_user
+  - user
+  permissions:
+  - ATTACHMENT_DELETE
+  - ATTACHMENT_DOWNLOAD
+  - ATTACHMENT_LIST
+  - ATTACHMENT_OPERATION_DELETE
+  - ATTACHMENT_OPERATION_DOWNLOAD
+  - ATTACHMENT_OPERATION_LIST
+  - ATTACHMENT_OPERATION_PREVIEW
+  - ATTACHMENT_OPERATION_PRINT
+  - ATTACHMENT_OPERATION_RECORD
+  - ATTACHMENT_OPERATION_UPLOAD
+  - ATTACHMENT_PREVIEW
+  - ATTACHMENT_PRINT
+  - ATTACHMENT_RECORD
+  - ATTACHMENT_UPLOAD
+  - AUDIT_LOG_DELETE
+  - AUDIT_LOG_DOWNLOAD
+  - AUDIT_LOG_LIST
+  - AUDIT_LOG_PREVIEW
+  - AUDIT_LOG_PRINT
+  - AUDIT_LOG_RECORD
+  - AUDIT_LOG_UPLOAD
+  - DELETE_ATTACHMENT_DELETE
+  - DELETE_ATTACHMENT_DOWNLOAD
+  - DELETE_ATTACHMENT_LIST
+  - DELETE_ATTACHMENT_PREVIEW
+  - DELETE_ATTACHMENT_PRINT
+  - DELETE_ATTACHMENT_RECORD
+  - DELETE_ATTACHMENT_UPLOAD
+  - DOWNLOAD_ATTACHMENT_DELETE
+  - DOWNLOAD_ATTACHMENT_DOWNLOAD
+  - DOWNLOAD_ATTACHMENT_LIST
+  - DOWNLOAD_ATTACHMENT_PREVIEW
+  - DOWNLOAD_ATTACHMENT_PRINT
+  - DOWNLOAD_ATTACHMENT_RECORD
+  - DOWNLOAD_ATTACHMENT_UPLOAD
+  - INVENTORY_DELETE
+  - INVENTORY_DOWNLOAD
+  - INVENTORY_LIST
+  - INVENTORY_PREVIEW
+  - INVENTORY_PRINT
+  - INVENTORY_RECORD
+  - INVENTORY_UPLOAD
+  - PERMISSION_DELETE
+  - PERMISSION_DOWNLOAD
+  - PERMISSION_LIST
+  - PERMISSION_PREVIEW
+  - PERMISSION_PRINT
+  - PERMISSION_RECORD
+  - PERMISSION_UPLOAD
+  - PREVIEW_ATTACHMENT_DELETE
+  - PREVIEW_ATTACHMENT_DOWNLOAD
+  - PREVIEW_ATTACHMENT_LIST
+  - PREVIEW_ATTACHMENT_PREVIEW
+  - PREVIEW_ATTACHMENT_PRINT
+  - PREVIEW_ATTACHMENT_RECORD
+  - PREVIEW_ATTACHMENT_UPLOAD
+  - PRINT_ATTACHMENT_DELETE
+  - PRINT_ATTACHMENT_DOWNLOAD
+  - PRINT_ATTACHMENT_LIST
+  - PRINT_ATTACHMENT_PREVIEW
+  - PRINT_ATTACHMENT_PRINT
+  - PRINT_ATTACHMENT_RECORD
+  - PRINT_ATTACHMENT_UPLOAD
+  - UPLOAD_ATTACHMENT_DELETE
+  - UPLOAD_ATTACHMENT_DOWNLOAD
+  - UPLOAD_ATTACHMENT_LIST
+  - UPLOAD_ATTACHMENT_PREVIEW
+  - UPLOAD_ATTACHMENT_PRINT
+  - UPLOAD_ATTACHMENT_RECORD
+  - UPLOAD_ATTACHMENT_UPLOAD
+  - USER_DELETE
+  - USER_DOWNLOAD
+  - USER_LIST
+  - USER_PREVIEW
+  - USER_PRINT
+  - USER_RECORD
+  - USER_UPLOAD
+  operations:
+  - delete
+  - download
+  - list
+  - preview
+  - print
+  - record
+  - upload
+  constraints:
+  - Only users with proper permissions can delete or print attachments
+  - The system should record audit logs for each attachment operation
+  - The system should support permission control. Only users with proper permissions
+    can delete or print attachments
+  - Users should be able to upload, preview, download, print, and delete attachments
+  - should be able to upload, preview, download, print, and delete attachments
+  - should expose APIs for upload, download, preview, delete, and list operations
+  - should provide a unified attachment management feature across procurement, sales,
+    and inventory modules
+  - should record audit logs for each attachment operation
+  - should support permission control

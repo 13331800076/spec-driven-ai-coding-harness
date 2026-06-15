@@ -1,0 +1,23 @@
+apis:
+{% for api in apis %}
+  - name: {{ api.name }}
+    method: {{ api.method }}
+    path: {{ api.path }}
+    {% if api.permission_required %}
+    permission_required: {{ api.permission_required }}
+    {% endif %}
+    request_schema:
+      {% for field, type in api.request_schema.items() %}
+      {{ field }}: {{ type }}
+      {% endfor %}
+    response_schema:
+      {% for field, type in api.response_schema.items() %}
+      {{ field }}: {{ type }}
+      {% endfor %}
+    {% if api.error_codes %}
+    error_codes:
+      {% for code in api.error_codes %}
+      - {{ code }}
+      {% endfor %}
+    {% endif %}
+{% endfor %}
