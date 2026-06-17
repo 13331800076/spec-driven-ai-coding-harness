@@ -1,7 +1,8 @@
+# ruff: noqa: E501
+# ruff: noqa: E501
 """Enhanced LLM prompts for high-quality spec generation."""
 
-from spec_harness.models import RequirementSpec, DomainAnalysis
-
+from spec_harness.models import DomainAnalysis, RequirementSpec
 
 SYSTEM_PROMPT = """You are a senior software requirements analyst and technical writer with 10 years of experience in enterprise software delivery.
 

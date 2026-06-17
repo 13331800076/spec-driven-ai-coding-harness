@@ -3,7 +3,7 @@
 import pytest
 
 from spec_harness.generators.api_spec_generator import ApiSpecGenerator
-from spec_harness.models import RequirementSpec, DomainAnalysis, UserStory
+from spec_harness.models import DomainAnalysis, RequirementSpec, UserStory
 
 
 @pytest.fixture
@@ -32,7 +32,13 @@ def sample_domain():
 @pytest.fixture
 def sample_stories():
     return [
-        UserStory(id="US-001", title="Upload", role="user", action="upload attachments", value="store files"),
+        UserStory(
+            id="US-001",
+            title="Upload",
+            role="user",
+            action="upload attachments",
+            value="store files",
+        ),
     ]
 
 

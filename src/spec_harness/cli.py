@@ -1,27 +1,21 @@
 """CLI entry point for spec-driven-ai-coding-harness."""
 
-import os
-import sys
 from pathlib import Path
-from typing import Optional
 
 import typer
 from rich.console import Console
-from rich.table import Table
 
-from spec_harness.config import HarnessConfig
-from spec_harness.parser.requirement_parser import RequirementParser
 from spec_harness.analyzer.domain_analyzer import DomainAnalyzer
-from spec_harness.generators.user_story_generator import UserStoryGenerator
+from spec_harness.config import HarnessConfig
 from spec_harness.generators.acceptance_generator import AcceptanceCriteriaGenerator
-from spec_harness.generators.api_spec_generator import ApiSpecGenerator
-from spec_harness.generators.test_case_generator import TestCaseGenerator
-from spec_harness.generators.task_breakdown_generator import TaskBreakdownGenerator
 from spec_harness.generators.agent_task_generator import AgentTaskGenerator
-from spec_harness.testgen.pytest_generator import PytestGenerator
-from spec_harness.testgen.playwright_generator import PlaywrightGenerator
+from spec_harness.generators.api_spec_generator import ApiSpecGenerator
+from spec_harness.generators.task_breakdown_generator import TaskBreakdownGenerator
+from spec_harness.generators.test_case_generator import TestCaseGenerator
+from spec_harness.generators.user_story_generator import UserStoryGenerator
+from spec_harness.parser.requirement_parser import RequirementParser
 from spec_harness.renderers.markdown_renderer import MarkdownRenderer, YamlRenderer
-from spec_harness.validators.traceability_validator import TraceabilityValidator, QualityGate
+from spec_harness.testgen.pytest_generator import PytestGenerator
 
 app = typer.Typer(help="Spec-Driven AI Coding Harness")
 console = Console()
@@ -69,17 +63,19 @@ quality_gates:
 """,
             encoding="utf-8",
         )
-        console.print(f"[green]Created harness.yaml[/green]")
+        console.print("[green]Created harness.yaml[/green]")
 
     console.print(f"[green]Initialized project '{project_name}'[/green]")
-    console.print(f"  requirements/  - Place requirement .md files here")
+    console.print("  requirements/  - Place requirement .md files here")
     console.print(f"  {output_dir}/    - Generated artifacts will appear here")
 
 
 @app.command()
 def generate(
     requirement_file: str = typer.Argument(..., help="Path to requirement markdown file"),
-    config_path: str = typer.Option("harness.yaml", "--config", "-c", help="Path to harness config"),
+    config_path: str = typer.Option(
+        "harness.yaml", "--config", "-c", help="Path to harness config"
+    ),
 ):
     """Generate specifications from a requirement document."""
     config = HarnessConfig.load(config_path)
@@ -94,9 +90,13 @@ def generate(
     llm_orchestrator = None
     if config.generation.mode == "llm":
         from spec_harness.llm.orchestrator import LLMOrchestrator
+
         llm_orchestrator = LLMOrchestrator(config)
         if not llm_orchestrator.client.is_available():
-            console.print("[yellow]Warning: LLM mode configured but API key not available. Falling back to rule-based mode.[/yellow]")
+            console.print(
+                "[yellow]Warning: LLM mode configured but API key not available. "
+                "Falling back to rule-based mode.[/yellow]"
+            )
             llm_orchestrator = None
 
     # Parse requirement
@@ -107,7 +107,10 @@ def generate(
     # Analyze domain
     analyzer = DomainAnalyzer()
     domain = analyzer.analyze(spec)
-    console.print(f"[blue]Domain analysis:[/blue] {len(domain.operations)} ops, {len(domain.business_objects)} objects")
+    console.print(
+        f"[blue]Domain analysis:[/blue] {len(domain.operations)} ops, "
+        f"{len(domain.business_objects)} objects"
+    )
 
     # Optionally refine with LLM
     if llm_orchestrator:
@@ -147,24 +150,26 @@ def generate(
         ac_groups = ac_gen.generate(stories)
     md_renderer.render_to_file(
         "acceptance_criteria.md.j2",
-        {"acceptance_criteria_groups": [
-            {
-                "story_id": g.story_id,
-                "story_title": g.story_title,
-                "criteria": [c.model_dump() for c in g.criteria],
-            }
-            for g in ac_groups
-        ]},
+        {
+            "acceptance_criteria_groups": [
+                {
+                    "story_id": g.story_id,
+                    "story_title": g.story_title,
+                    "criteria": [c.model_dump() for c in g.criteria],
+                }
+                for g in ac_groups
+            ]
+        },
         output_dir / "acceptance_criteria.md",
     )
-    console.print(f"[green]Generated acceptance criteria[/green]")
+    console.print("[green]Generated acceptance criteria[/green]")
 
     # Generate domain model YAML
     yaml_renderer.render(
         {"domain": domain.model_dump()},
         output_dir / "domain_model.yaml",
     )
-    console.print(f"[green]Generated domain_model.yaml[/green]")
+    console.print("[green]Generated domain_model.yaml[/green]")
 
     # Generate API specs
     if llm_orchestrator:
@@ -221,10 +226,12 @@ def generate(
 @app.command()
 def validate(
     outputs_dir: str = typer.Argument(..., help="Path to outputs directory"),
-    config_path: str = typer.Option("harness.yaml", "--config", "-c", help="Path to harness config"),
+    config_path: str = typer.Option(
+        "harness.yaml", "--config", "-c", help="Path to harness config"
+    ),
 ):
     """Validate generated specifications."""
-    config = HarnessConfig.load(config_path)
+    _config = HarnessConfig.load(config_path)
     output_dir = Path(outputs_dir)
 
     if not output_dir.exists():
@@ -246,7 +253,7 @@ def validate(
         console.print(f"[red]Missing required files: {', '.join(missing)}[/red]")
         raise typer.Exit(code=1)
 
-    console.print(f"[green]Validation passed: all required artifacts present.[/green]")
+    console.print("[green]Validation passed: all required artifacts present.[/green]")
 
 
 @app.command()
@@ -262,10 +269,11 @@ def generate_tests(
         console.print(f"[red]API spec file not found: {api_spec_file}[/red]")
         raise typer.Exit(code=1)
 
-    with open(spec_path, "r", encoding="utf-8") as f:
+    with open(spec_path, encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     from spec_harness.models import ApiSpec
+
     apis = [ApiSpec(**api) for api in data.get("apis", [])]
 
     test_out = Path(output_dir)
@@ -276,13 +284,15 @@ def generate_tests(
     pytest_gen.generate(apis, test_out)
     console.print(f"[green]Generated pytest skeletons in {test_out}/pytest/[/green]")
 
-    console.print(f"[bold green]Test skeletons generated.[/bold green]")
+    console.print("[bold green]Test skeletons generated.[/bold green]")
 
 
 @app.command()
 def export_agent_tasks(
     task_breakdown_file: str = typer.Argument(..., help="Path to task_breakdown.yaml"),
-    output_dir: str = typer.Option("outputs/agent_tasks", "--output", "-o", help="Agent task output directory"),
+    output_dir: str = typer.Option(
+        "outputs/agent_tasks", "--output", "-o", help="Agent task output directory"
+    ),
 ):
     """Export individual AI coding task files from task breakdown."""
     import yaml
@@ -292,7 +302,7 @@ def export_agent_tasks(
         console.print(f"[red]Task breakdown file not found: {task_breakdown_file}[/red]")
         raise typer.Exit(code=1)
 
-    with open(task_path, "r", encoding="utf-8") as f:
+    with open(task_path, encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
     agent_out = Path(output_dir)
@@ -328,7 +338,9 @@ This task is part of the feature implementation.
             encoding="utf-8",
         )
 
-    console.print(f"[green]Exported {len(data.get('tasks', []))} agent tasks to {agent_out}/[/green]")
+    console.print(
+        f"[green]Exported {len(data.get('tasks', []))} agent tasks to {agent_out}/[/green]"
+    )
 
 
 def main():

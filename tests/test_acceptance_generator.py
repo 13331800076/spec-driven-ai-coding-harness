@@ -14,8 +14,20 @@ def generator():
 @pytest.fixture
 def sample_stories():
     return [
-        UserStory(id="US-001", title="Upload", role="user", action="upload attachments", value="store files"),
-        UserStory(id="US-002", title="Delete", role="admin", action="delete attachments", value="remove files"),
+        UserStory(
+            id="US-001",
+            title="Upload",
+            role="user",
+            action="upload attachments",
+            value="store files",
+        ),
+        UserStory(
+            id="US-002",
+            title="Delete",
+            role="admin",
+            action="delete attachments",
+            value="remove files",
+        ),
     ]
 
 
@@ -39,12 +51,18 @@ def test_criteria_format(generator, sample_stories):
 def test_audit_criteria_for_mutations(generator, sample_stories):
     groups = generator.generate(sample_stories)
     upload_group = [g for g in groups if g.story_id == "US-001"][0]
-    audit_criteria = [ac for ac in upload_group.criteria if "audit" in ac.then.lower() or "log" in ac.then.lower()]
+    audit_criteria = [
+        ac for ac in upload_group.criteria if "audit" in ac.then.lower() or "log" in ac.then.lower()
+    ]
     assert len(audit_criteria) > 0
 
 
 def test_permission_failure_criteria(generator, sample_stories):
     groups = generator.generate(sample_stories)
     for group in groups:
-        permission_criteria = [ac for ac in group.criteria if "permission" in ac.given.lower() or "not have" in ac.given.lower()]
+        permission_criteria = [
+            ac
+            for ac in group.criteria
+            if "permission" in ac.given.lower() or "not have" in ac.given.lower()
+        ]
         assert len(permission_criteria) > 0

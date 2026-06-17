@@ -16,12 +16,20 @@ def attachment_spec():
     return RequirementSpec(
         requirement_id="REQ-ATTACHMENT",
         title="Unified Attachment Management",
-        raw_text="""Users should be able to upload, preview, download, print, and delete attachments.
+        raw_text=(  # noqa: E501
+            """Users should be able to upload, preview, download, print, and delete attachments.
         Only users with proper permissions can delete or print attachments.
-        The system should record audit logs for each attachment operation.""",
+        The system should record audit logs for each attachment operation."""
+        ),
         actors=["user"],
         business_objects=["attachment", "audit_log"],
-        features=["upload attachments", "preview attachments", "download attachments", "print attachments", "delete attachments"],
+        features=[
+            "upload attachments",
+            "preview attachments",
+            "download attachments",
+            "print attachments",
+            "delete attachments",
+        ],
         constraints=["Only users with proper permissions can delete or print attachments"],
     )
 
@@ -31,9 +39,11 @@ def customer_spec():
     return RequirementSpec(
         requirement_id="REQ-CUSTOMER",
         title="Customer Management",
-        raw_text="""Users should be able to create, update, view, and delete customer records.
+        raw_text=(
+            """Users should be able to create, update, view, and delete customer records.
         The system should support customer classification and tagging.
-        The system should enforce data validation: phone numbers must be valid, email must be unique.""",
+        The system should enforce data validation: phone numbers must be valid, email must be unique."""  # noqa: E501
+        ),
         actors=["user"],
         business_objects=["customer"],
         features=["create customer", "update customer", "view customer", "delete customer"],

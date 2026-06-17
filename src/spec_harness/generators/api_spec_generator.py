@@ -1,6 +1,6 @@
 """API spec generator module."""
 
-from spec_harness.models import RequirementSpec, DomainAnalysis, UserStory, ApiSpec
+from spec_harness.models import ApiSpec, DomainAnalysis, RequirementSpec, UserStory
 
 
 class ApiSpecGenerator:
@@ -31,12 +31,18 @@ class ApiSpecGenerator:
         "log": "POST",
     }
 
-    def generate(self, spec: RequirementSpec, domain: DomainAnalysis, stories: list[UserStory]) -> list[ApiSpec]:
+    def generate(
+        self, spec: RequirementSpec, domain: DomainAnalysis, stories: list[UserStory]
+    ) -> list[ApiSpec]:
         apis: list[ApiSpec] = []
         objects = domain.business_objects if domain.business_objects else ["resource"]
-        operations = domain.operations if domain.operations else ["list", "create", "view", "update", "delete"]
+        operations = (
+            domain.operations
+            if domain.operations
+            else ["list", "create", "view", "update", "delete"]
+        )
 
-        for idx, operation in enumerate(operations, start=1):
+        for _idx, operation in enumerate(operations, start=1):
             for obj in objects[:3]:  # Limit to avoid explosion
                 obj_slug = obj.replace(" ", "_").lower()
                 obj_path = obj.replace(" ", "-").lower()

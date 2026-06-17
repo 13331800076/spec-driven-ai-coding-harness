@@ -2,16 +2,16 @@
 
 import pytest
 
-from spec_harness.validators.traceability_validator import TraceabilityValidator, QualityGate
 from spec_harness.models import (
-    RequirementSpec,
-    UserStory,
     AcceptanceCriteriaGroup,
     AcceptanceCriterion,
-    TestCase,
-    Task,
     AiCodingTask,
+    RequirementSpec,
+    Task,
+    TestCase,
+    UserStory,
 )
+from spec_harness.validators.traceability_validator import QualityGate, TraceabilityValidator
 
 
 @pytest.fixture
@@ -36,7 +36,13 @@ def sample_spec():
 @pytest.fixture
 def sample_stories():
     return [
-        UserStory(id="US-001", title="Upload", role="user", action="upload attachments", value="store files"),
+        UserStory(
+            id="US-001",
+            title="Upload",
+            role="user",
+            action="upload attachments",
+            value="store files",
+        ),
     ]
 
 
@@ -47,9 +53,15 @@ def sample_ac_groups():
             story_id="US-001",
             story_title="Upload",
             criteria=[
-                AcceptanceCriterion(id="AC-001", given="Given user", when="When upload", then="Then success"),
-                AcceptanceCriterion(id="AC-002", given="Given no permission", when="When upload", then="Then denied"),
-                AcceptanceCriterion(id="AC-003", given="Given invalid data", when="When upload", then="Then error"),
+                AcceptanceCriterion(
+                    id="AC-001", given="Given user", when="When upload", then="Then success"
+                ),
+                AcceptanceCriterion(
+                    id="AC-002", given="Given no permission", when="When upload", then="Then denied"
+                ),
+                AcceptanceCriterion(
+                    id="AC-003", given="Given invalid data", when="When upload", then="Then error"
+                ),
             ],
         ),
     ]
@@ -58,20 +70,44 @@ def sample_ac_groups():
 @pytest.fixture
 def sample_test_cases():
     return [
-        TestCase(id="TC-001", title="Upload success", steps=["1. Login"], expected_results=["Success"], related_ac=["AC-001"]),
-        TestCase(id="TC-002", title="Upload denied", steps=["1. Login"], expected_results=["Denied"], related_ac=["AC-002"]),
+        TestCase(
+            id="TC-001",
+            title="Upload success",
+            steps=["1. Login"],
+            expected_results=["Success"],
+            related_ac=["AC-001"],
+        ),
+        TestCase(
+            id="TC-002",
+            title="Upload denied",
+            steps=["1. Login"],
+            expected_results=["Denied"],
+            related_ac=["AC-002"],
+        ),
     ]
 
 
 @pytest.fixture
 def sample_tasks():
     return [
-        Task(id="TASK-001", title="Implement upload", type="backend", related_user_story="US-001", acceptance_criteria=["AC-001"], files_to_modify=["src/upload.py"], out_of_scope=["UI"]),
+        Task(
+            id="TASK-001",
+            title="Implement upload",
+            type="backend",
+            related_user_story="US-001",
+            acceptance_criteria=["AC-001"],
+            files_to_modify=["src/upload.py"],
+            out_of_scope=["UI"],
+        ),
     ]
 
 
-def test_validate_traceability_pass(validator, sample_spec, sample_stories, sample_ac_groups, sample_test_cases, sample_tasks):
-    report = validator.validate(sample_spec, sample_stories, sample_ac_groups, sample_test_cases, sample_tasks)
+def test_validate_traceability_pass(
+    validator, sample_spec, sample_stories, sample_ac_groups, sample_test_cases, sample_tasks
+):
+    report = validator.validate(
+        sample_spec, sample_stories, sample_ac_groups, sample_test_cases, sample_tasks
+    )
     # Note: TC-003 is not covered, so this may not fully pass
     assert isinstance(report.passed, bool)
     assert report.summary

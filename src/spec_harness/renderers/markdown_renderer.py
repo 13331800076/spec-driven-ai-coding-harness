@@ -34,8 +34,8 @@ class YamlRenderer:
         # Custom representer to preserve string types for numeric strings
         def str_representer(dumper, data):
             if isinstance(data, str) and data.isdigit():
-                return dumper.represent_scalar('tag:yaml.org,2002:str', data)
-            return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+                return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
         yaml.add_representer(str, str_representer)
 
@@ -45,8 +45,8 @@ class YamlRenderer:
     def render_to_string(self, data: dict[str, Any]) -> str:
         def str_representer(dumper, data):
             if isinstance(data, str) and data.isdigit():
-                return dumper.represent_scalar('tag:yaml.org,2002:str', data)
-            return dumper.represent_scalar('tag:yaml.org,2002:str', data)
+                return dumper.represent_scalar("tag:yaml.org,2002:str", data)
+            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
         yaml.add_representer(str, str_representer)
         return yaml.dump(data, default_flow_style=False, sort_keys=False, allow_unicode=True)

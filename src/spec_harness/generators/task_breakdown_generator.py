@@ -1,6 +1,6 @@
 """Task breakdown generator module."""
 
-from spec_harness.models import UserStory, AcceptanceCriteriaGroup, ApiSpec, TestCase, Task
+from spec_harness.models import AcceptanceCriteriaGroup, ApiSpec, Task, TestCase, UserStory
 
 
 class TaskBreakdownGenerator:

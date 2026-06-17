@@ -2,11 +2,9 @@
 
 import os
 from pathlib import Path
-from typing import List, Optional
 
-from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-
+from pydantic import BaseModel, Field
 
 load_dotenv()
 
@@ -19,14 +17,14 @@ class ProjectConfig(BaseModel):
 class GenerationConfig(BaseModel):
     mode: str = "rule_based"  # rule_based or llm
     language: str = "en"
-    output_formats: List[str] = Field(default_factory=lambda: ["markdown", "yaml"])
+    output_formats: list[str] = Field(default_factory=lambda: ["markdown", "yaml"])
 
 
 class LLMConfig(BaseModel):
     provider: str = "openai_compatible"
     model: str = "gpt-4.1"
-    base_url: Optional[str] = None
-    api_key: Optional[str] = None
+    base_url: str | None = None
+    api_key: str | None = None
 
 
 class TestingConfig(BaseModel):
@@ -50,8 +48,9 @@ class HarnessConfig(BaseModel):
     @classmethod
     def load(cls, path: str = "harness.yaml") -> "HarnessConfig":
         import yaml
+
         if os.path.exists(path):
-            with open(path, "r", encoding="utf-8") as f:
+            with open(path, encoding="utf-8") as f:
                 data = yaml.safe_load(f) or {}
             # Resolve environment variables in strings
             data = _resolve_env_vars(data)

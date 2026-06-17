@@ -1,7 +1,8 @@
 """Tests for requirement parser."""
 
-import pytest
 from pathlib import Path
+
+import pytest
 
 from spec_harness.parser.requirement_parser import RequirementParser
 
@@ -13,16 +14,19 @@ def parser():
 
 @pytest.fixture
 def sample_requirement(tmp_path: Path) -> str:
-    content = """# Requirement: Unified Attachment Management
-
-The system should provide a unified attachment management feature across procurement, sales, and inventory modules.
-
-Users should be able to upload, preview, download, print, and delete attachments.
-
-The system should support permission control. Only users with proper permissions can delete or print attachments.
-
-The system should record audit logs for each attachment operation.
-"""
+    content = (
+        "# Requirement: Unified Attachment Management\n"
+        "\n"
+        "The system should provide a unified attachment management feature "
+        "across procurement, sales, and inventory modules.\n"
+        "\n"
+        "Users should be able to upload, preview, download, print, and delete attachments.\n"
+        "\n"
+        "The system should support permission control. "
+        "Only users with proper permissions can delete or print attachments.\n"
+        "\n"
+        "The system should record audit logs for each attachment operation.\n"
+    )
     file_path = tmp_path / "attachment_management.md"
     file_path.write_text(content, encoding="utf-8")
     return str(file_path)
@@ -66,7 +70,10 @@ def test_extract_features(parser):
 
 
 def test_extract_constraints(parser):
-    text = "Only users with proper permissions can delete attachments. The system should record audit logs."
+    text = (
+    "Only users with proper permissions can delete attachments. "
+    "The system should record audit logs."
+)
     spec = parser._extract(text, "test")
     constraints_lower = [c.lower() for c in spec.constraints]
     assert any("permission" in c for c in constraints_lower)

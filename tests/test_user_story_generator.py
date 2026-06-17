@@ -3,7 +3,7 @@
 import pytest
 
 from spec_harness.generators.user_story_generator import UserStoryGenerator
-from spec_harness.models import RequirementSpec, DomainAnalysis
+from spec_harness.models import DomainAnalysis, RequirementSpec
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 """Acceptance criteria generator module."""
 
-from spec_harness.models import UserStory, AcceptanceCriteriaGroup, AcceptanceCriterion
+from spec_harness.models import AcceptanceCriteriaGroup, AcceptanceCriterion, UserStory
 
 
 class AcceptanceCriteriaGenerator:
@@ -30,10 +30,10 @@ class AcceptanceCriteriaGenerator:
                 id=f"AC-{story.id.split('-')[1]}-001",
                 given=f"Given a {role} has the necessary permissions",
                 when=f"When the {role} attempts to {action}",
-                then=f"Then the operation should complete successfully",
+                then="Then the operation should complete successfully",
                 and_conditions=[
-                    f"And the result should be consistent with the expected outcome",
-                    f"And the system state should be updated accordingly",
+                    "And the result should be consistent with the expected outcome",
+                    "And the system state should be updated accordingly",
                 ],
             )
         )
@@ -44,10 +44,10 @@ class AcceptanceCriteriaGenerator:
                 id=f"AC-{story.id.split('-')[1]}-002",
                 given=f"Given a {role} does not have the required permission",
                 when=f"When the {role} attempts to {action}",
-                then=f"Then the system should reject the operation",
+                then="Then the system should reject the operation",
                 and_conditions=[
-                    f"And a permission denied message should be returned",
-                    f"And no unauthorized change should occur",
+                    "And a permission denied message should be returned",
+                    "And no unauthorized change should occur",
                 ],
             )
         )
@@ -58,25 +58,27 @@ class AcceptanceCriteriaGenerator:
                 id=f"AC-{story.id.split('-')[1]}-003",
                 given=f"Given a {role} provides invalid or incomplete data",
                 when=f"When the {role} attempts to {action}",
-                then=f"Then the system should validate the input",
+                then="Then the system should validate the input",
                 and_conditions=[
-                    f"And appropriate error messages should be returned",
-                    f"And the operation should not proceed with invalid data",
+                    "And appropriate error messages should be returned",
+                    "And the operation should not proceed with invalid data",
                 ],
             )
         )
 
         # 4. Audit / logging when applicable
-        if any(kw in action for kw in ("upload", "delete", "update", "create", "approve", "reject")):
+        if any(
+            kw in action for kw in ("upload", "delete", "update", "create", "approve", "reject")
+        ):
             criteria.append(
                 AcceptanceCriterion(
                     id=f"AC-{story.id.split('-')[1]}-004",
                     given=f"Given a {role} successfully performs the operation",
-                    when=f"When the operation completes",
-                    then=f"Then the system should record an audit log",
+                    when="When the operation completes",
+                    then="Then the system should record an audit log",
                     and_conditions=[
-                        f"And the log should include the user identifier",
-                        f"And the log should include a timestamp of the operation",
+                        "And the log should include the user identifier",
+                        "And the log should include a timestamp of the operation",
                     ],
                 )
             )

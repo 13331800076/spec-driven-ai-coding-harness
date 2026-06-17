@@ -1,6 +1,7 @@
 """Playwright skeleton generator module."""
 
 from pathlib import Path
+
 from spec_harness.models import UserStory
 
 

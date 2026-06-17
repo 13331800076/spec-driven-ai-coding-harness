@@ -1,15 +1,12 @@
 """Validation and quality gate modules."""
 
-from pathlib import Path
-from typing import Any
-
 from spec_harness.models import (
-    RequirementSpec,
-    UserStory,
     AcceptanceCriteriaGroup,
-    TestCase,
-    Task,
     AiCodingTask,
+    RequirementSpec,
+    Task,
+    TestCase,
+    UserStory,
     ValidationReport,
 )
 
@@ -73,7 +70,9 @@ class TraceabilityValidator:
                 issues.append(f"{story.id} is missing a business value.")
         return issues
 
-    def _check_ac_coverage(self, stories: list[UserStory], ac_groups: list[AcceptanceCriteriaGroup]) -> list[str]:
+    def _check_ac_coverage(
+        self, stories: list[UserStory], ac_groups: list[AcceptanceCriteriaGroup]
+    ) -> list[str]:
         issues = []
         story_ids = {s.id for s in stories}
         ac_story_ids = {g.story_id for g in ac_groups}
@@ -82,10 +81,15 @@ class TraceabilityValidator:
             issues.append(f"No acceptance criteria found for {sid}.")
         for group in ac_groups:
             if len(group.criteria) < 3:
-                issues.append(f"{group.story_id} has only {len(group.criteria)} acceptance criteria (minimum 3 recommended).")
+                issues.append(
+                    f"{group.story_id} has only {len(group.criteria)} "
+                    f"acceptance criteria (minimum 3 recommended)."
+                )
         return issues
 
-    def _check_test_coverage(self, ac_groups: list[AcceptanceCriteriaGroup], test_cases: list[TestCase]) -> list[str]:
+    def _check_test_coverage(
+        self, ac_groups: list[AcceptanceCriteriaGroup], test_cases: list[TestCase]
+    ) -> list[str]:
         issues = []
         ac_ids = {ac.id for group in ac_groups for ac in group.criteria}
         tc_ac_ids = set()
@@ -117,7 +121,10 @@ class QualityGate:
             if not task.files_to_modify:
                 issues.append(f"{task.id} does not specify files to modify.")
             if len(task.files_to_modify) > 5:
-                issues.append(f"{task.id} modifies too many files ({len(task.files_to_modify)}), consider splitting.")
+                issues.append(
+                    f"{task.id} modifies too many files ({len(task.files_to_modify)}), "
+                    f"consider splitting."
+                )
             if not task.out_of_scope:
                 issues.append(f"{task.id} lacks explicit out-of-scope definition.")
 
@@ -129,10 +136,15 @@ class QualityGate:
             vague_keywords = ["optimize", "improve", "refactor", "clean up", "enhance"]
             for keyword in vague_keywords:
                 if keyword in ai_task.title.lower() or keyword in ai_task.goal.lower():
-                    issues.append(f"{ai_task.id} contains vague keyword '{keyword}'. Use specific, measurable goals.")
+                    issues.append(
+                        f"{ai_task.id} contains vague keyword '{keyword}'. "
+                    f"Use specific, measurable goals."
+                    )
 
         passed = len(issues) == 0
-        summary = "Quality gate passed." if passed else f"Quality gate found {len(issues)} issue(s)."
+        summary = (
+            "Quality gate passed." if passed else f"Quality gate found {len(issues)} issue(s)."
+        )
 
         return ValidationReport(
             passed=passed,

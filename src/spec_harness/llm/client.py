@@ -2,7 +2,7 @@
 
 import json
 import os
-from typing import Any, Optional
+from typing import Any
 
 import httpx
 
@@ -14,7 +14,9 @@ class LLMClient:
 
     def __init__(self, config: HarnessConfig):
         self.config = config
-        self.base_url = config.llm.base_url or os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
+        self.base_url = config.llm.base_url or os.getenv(
+            "OPENAI_BASE_URL", "https://api.openai.com/v1"
+        )
         self.api_key = config.llm.api_key or os.getenv("OPENAI_API_KEY", "")
         self.model = config.llm.model or "gpt-4.1"
 
@@ -23,7 +25,9 @@ class LLMClient:
 
     def generate(self, prompt: str, temperature: float = 0.3, max_tokens: int = 4000) -> str:
         if not self.is_available():
-            raise RuntimeError("LLM not configured. Set OPENAI_API_KEY or configure llm.api_key in harness.yaml.")
+            raise RuntimeError(
+                "LLM not configured. Set OPENAI_API_KEY or configure llm.api_key in harness.yaml."
+            )
 
         headers = {
             "Authorization": f"Bearer {self.api_key}",
@@ -61,8 +65,12 @@ class LLMClient:
 
     def _system_prompt(self) -> str:
         return (
-            "You are a senior software requirements analyst and technical writer. "
-            "Your job is to convert vague business requirements into precise, structured software engineering artifacts. "
-            "Always produce well-structured output. Prefer specific, actionable language over vague terms. "
-            "When generating user stories, use standard format: As a [role], I want to [action], so that [value]."
+            "You are a senior software requirements analyst and "
+            "technical writer. "
+            "Your job is to convert vague business requirements into "
+            "precise, structured software engineering artifacts. "
+            "Always produce well-structured output. "
+            "Prefer specific, actionable language over vague terms. "
+            "When generating user stories, use standard format: "
+            "As a [role], I want to [action], so that [value]."
         )

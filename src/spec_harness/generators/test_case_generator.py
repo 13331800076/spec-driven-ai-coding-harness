@@ -6,7 +6,9 @@ from spec_harness.models import AcceptanceCriteriaGroup, ApiSpec, TestCase
 class TestCaseGenerator:
     """Generate test cases from acceptance criteria and API specs."""
 
-    def generate(self, ac_groups: list[AcceptanceCriteriaGroup], apis: list[ApiSpec]) -> list[TestCase]:
+    def generate(
+        self, ac_groups: list[AcceptanceCriteriaGroup], apis: list[ApiSpec]
+    ) -> list[TestCase]:
         test_cases: list[TestCase] = []
         tc_counter = 1
 
@@ -33,9 +35,9 @@ class TestCaseGenerator:
 
         steps = [
             f"Login as a user {permission}.",
-            f"Navigate to the relevant feature area.",
+            "Navigate to the relevant feature area.",
             f"{ac.when}.",
-            f"Observe the system response.",
+            "Observe the system response.",
         ]
 
         expected_results = [
@@ -56,12 +58,12 @@ class TestCaseGenerator:
         steps = [
             f"Prepare authentication with {api.permission_required or 'valid credentials'}.",
             f"Send {api.method} request to {api.path}.",
-            f"Include valid request payload.",
-            f"Verify response status and body.",
+            "Include valid request payload.",
+            "Verify response status and body.",
         ]
 
         expected_results = [
-            f"Response status is appropriate for the scenario.",
+            "Response status is appropriate for the scenario.",
             f"Response body contains required fields: {', '.join(api.response_schema.keys())}.",
         ]
 

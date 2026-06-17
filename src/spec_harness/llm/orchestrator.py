@@ -1,9 +1,18 @@
 """LLM orchestrator for spec generation."""
 
 from spec_harness.config import HarnessConfig
-from spec_harness.llm.client import LLMClient
 from spec_harness.llm import prompts
-from spec_harness.models import RequirementSpec, DomainAnalysis, UserStory, AcceptanceCriteriaGroup, AcceptanceCriterion, ApiSpec, Task, AiCodingTask
+from spec_harness.llm.client import LLMClient
+from spec_harness.models import (
+    AcceptanceCriteriaGroup,
+    AcceptanceCriterion,
+    AiCodingTask,
+    ApiSpec,
+    DomainAnalysis,
+    RequirementSpec,
+    Task,
+    UserStory,
+)
 
 
 class LLMOrchestrator:
@@ -37,7 +46,9 @@ class LLMOrchestrator:
             print(f"[LLM warning] Story generation failed: {e}. Using rule-based output.")
             return []
 
-    def generate_acceptance_criteria(self, stories: list[UserStory]) -> list[AcceptanceCriteriaGroup]:
+    def generate_acceptance_criteria(
+        self, stories: list[UserStory]
+    ) -> list[AcceptanceCriteriaGroup]:
         if not self.client.is_available():
             return []
         groups = []
@@ -47,17 +58,24 @@ class LLMOrchestrator:
             try:
                 result = self.client.generate_json(prompt)
                 criteria = [AcceptanceCriterion(**c) for c in result.get("criteria", [])]
-                groups.append(AcceptanceCriteriaGroup(
-                    story_id=story.id,
-                    story_title=story.title,
-                    criteria=criteria,
-                ))
+                groups.append(
+                    AcceptanceCriteriaGroup(
+                        story_id=story.id,
+                        story_title=story.title,
+                        criteria=criteria,
+                    )
+                )
             except Exception as e:
-                print(f"[LLM warning] AC generation for {story.id} failed: {e}. Using rule-based output.")
+                print(
+                    f"[LLM warning] AC generation for {story.id} "
+                    f"failed: {e}. Using rule-based output."
+                )
                 return []
         return groups
 
-    def generate_api_specs(self, spec: RequirementSpec, domain: DomainAnalysis, stories: list[UserStory]) -> list[ApiSpec]:
+    def generate_api_specs(
+        self, spec: RequirementSpec, domain: DomainAnalysis, stories: list[UserStory]
+    ) -> list[ApiSpec]:
         if not self.client.is_available():
             return []
         stories_json = "\n".join([s.model_dump_json() for s in stories[:5]])
@@ -80,6 +98,9 @@ class LLMOrchestrator:
                 result = self.client.generate_json(prompt)
                 ai_tasks.append(AiCodingTask(**result))
             except Exception as e:
-                print(f"[LLM warning] AI task refinement for {task.id} failed: {e}. Using rule-based output.")
+                print(
+                    f"[LLM warning] AI task refinement for {task.id} "
+                    f"failed: {e}. Using rule-based output."
+                )
                 return []
         return ai_tasks

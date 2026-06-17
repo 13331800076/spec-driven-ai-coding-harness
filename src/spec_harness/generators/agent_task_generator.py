@@ -1,6 +1,6 @@
 """AI coding task generator module."""
 
-from spec_harness.models import Task, AiCodingTask
+from spec_harness.models import AiCodingTask, Task
 
 
 class AgentTaskGenerator:
