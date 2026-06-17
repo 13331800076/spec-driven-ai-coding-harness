@@ -2,6 +2,7 @@
 
 import os
 from pathlib import Path
+from typing import Any
 
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
@@ -61,7 +62,7 @@ class HarnessConfig(BaseModel):
         return Path(self.project.output_dir)
 
 
-def _resolve_env_vars(obj):
+def _resolve_env_vars(obj: Any) -> Any:
     if isinstance(obj, dict):
         return {k: _resolve_env_vars(v) for k, v in obj.items()}
     elif isinstance(obj, list):

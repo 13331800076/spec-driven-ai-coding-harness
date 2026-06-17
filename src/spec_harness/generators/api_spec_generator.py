@@ -1,5 +1,7 @@
 """API spec generator module."""
 
+from typing import Any
+
 from spec_harness.models import ApiSpec, DomainAnalysis, RequirementSpec, UserStory
 
 
@@ -74,7 +76,7 @@ class ApiSpecGenerator:
             return f"/api/{obj}s"
         return f"/api/{obj}s/{operation}"
 
-    def _build_request_schema(self, method: str, obj: str) -> dict:
+    def _build_request_schema(self, method: str, obj: str) -> dict[str, Any]:
         if method == "GET":
             return {"page": "integer", "page_size": "integer"}
         if "delete" in obj.lower():
@@ -85,15 +87,15 @@ class ApiSpecGenerator:
             "file": "binary",
         }
 
-    def _build_response_schema(self, method: str, obj: str) -> dict:
+    def _build_response_schema(self, method: str, obj: str) -> dict[str, Any]:
         schema = {"status": "string", "message": "string"}
         if method == "GET":
             schema[f"{obj}"] = "object"
             schema["items"] = "list"
         return schema
 
-    def _build_error_codes(self, method: str) -> list[str]:
-        codes = ["400", "401", "403", "500"]
+    def _build_error_codes(self, method: str) -> list[str | int]:
+        codes: list[str | int] = ["400", "401", "403", "500"]
         if method == "GET":
             codes.append("404")
         return codes

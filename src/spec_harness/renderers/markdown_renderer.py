@@ -10,7 +10,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 class MarkdownRenderer:
     """Render structured data to Markdown using Jinja2 templates."""
 
-    def __init__(self, templates_dir: Path):
+    def __init__(self, templates_dir: Path) -> None:
         self.env = Environment(
             loader=FileSystemLoader(str(templates_dir)),
             autoescape=select_autoescape(["html", "xml"]),
@@ -32,8 +32,8 @@ class YamlRenderer:
 
     def render(self, data: dict[str, Any], output_path: Path) -> None:
         # Custom representer to preserve string types for numeric strings
-        def str_representer(dumper, data):
-            if isinstance(data, str) and data.isdigit():
+        def str_representer(dumper: Any, data: str) -> Any:
+            if data.isdigit():
                 return dumper.represent_scalar("tag:yaml.org,2002:str", data)
             return dumper.represent_scalar("tag:yaml.org,2002:str", data)
 
@@ -43,10 +43,5 @@ class YamlRenderer:
             yaml.dump(data, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
 
     def render_to_string(self, data: dict[str, Any]) -> str:
-        def str_representer(dumper, data):
-            if isinstance(data, str) and data.isdigit():
-                return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-
-        yaml.add_representer(str, str_representer)
-        return yaml.dump(data, default_flow_style=False, sort_keys=False, allow_unicode=True)
+        result: str = yaml.dump(data, default_flow_style=False, sort_keys=False, allow_unicode=True)
+        return result

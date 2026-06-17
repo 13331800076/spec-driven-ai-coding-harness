@@ -25,7 +25,7 @@ console = Console()
 def init(
     project_name: str = typer.Option("my-project", "--name", "-n", help="Project name"),
     output_dir: str = typer.Option("outputs", "--output", "-o", help="Output directory"),
-):
+) -> None:
     """Initialize a new harness project."""
     cwd = Path.cwd()
     (cwd / "requirements").mkdir(exist_ok=True)
@@ -76,7 +76,7 @@ def generate(
     config_path: str = typer.Option(
         "harness.yaml", "--config", "-c", help="Path to harness config"
     ),
-):
+) -> None:
     """Generate specifications from a requirement document."""
     config = HarnessConfig.load(config_path)
     output_dir = config.get_output_dir()
@@ -229,7 +229,7 @@ def validate(
     config_path: str = typer.Option(
         "harness.yaml", "--config", "-c", help="Path to harness config"
     ),
-):
+) -> None:
     """Validate generated specifications."""
     _config = HarnessConfig.load(config_path)
     output_dir = Path(outputs_dir)
@@ -260,7 +260,7 @@ def validate(
 def generate_tests(
     api_spec_file: str = typer.Argument(..., help="Path to api_spec.yaml"),
     output_dir: str = typer.Option("outputs/tests", "--output", "-o", help="Test output directory"),
-):
+) -> None:
     """Generate pytest and Playwright skeletons from API specs."""
     import yaml
 
@@ -293,7 +293,7 @@ def export_agent_tasks(
     output_dir: str = typer.Option(
         "outputs/agent_tasks", "--output", "-o", help="Agent task output directory"
     ),
-):
+) -> None:
     """Export individual AI coding task files from task breakdown."""
     import yaml
 
@@ -343,7 +343,7 @@ This task is part of the feature implementation.
     )
 
 
-def main():
+def main() -> None:
     app()
 
 

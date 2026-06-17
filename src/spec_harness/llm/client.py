@@ -52,7 +52,7 @@ class LLMClient:
         )
         response.raise_for_status()
         data = response.json()
-        return data["choices"][0]["message"]["content"]
+        return str(data["choices"][0]["message"]["content"])
 
     def generate_json(self, prompt: str, temperature: float = 0.2) -> dict[str, Any]:
         content = self.generate(prompt, temperature=temperature)
@@ -61,10 +61,10 @@ class LLMClient:
             content = content.split("```json")[1].split("```")[0].strip()
         elif "```" in content:
             content = content.split("```")[1].split("```")[0].strip()
-        return json.loads(content)
+        return dict(json.loads(content))
 
     def _system_prompt(self) -> str:
-        return (
+        result: str = (
             "You are a senior software requirements analyst and "
             "technical writer. "
             "Your job is to convert vague business requirements into "
@@ -74,3 +74,4 @@ class LLMClient:
             "When generating user stories, use standard format: "
             "As a [role], I want to [action], so that [value]."
         )
+        return result

@@ -1,5 +1,7 @@
 """Core data models for the spec-driven harness."""
 
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
@@ -68,8 +70,12 @@ class ApiSpec(BaseModel):
     method: str = Field(default="", description="HTTP method")
     path: str = Field(default="", description="URL path")
     permission_required: str | None = Field(default=None, description="Required permission")
-    request_schema: dict = Field(default_factory=dict, description="Request fields and types")
-    response_schema: dict = Field(default_factory=dict, description="Response fields and types")
+    request_schema: dict[str, Any] = Field(
+        default_factory=dict, description="Request fields and types"
+    )
+    response_schema: dict[str, Any] = Field(
+        default_factory=dict, description="Response fields and types"
+    )
     error_codes: list[str | int] = Field(default_factory=list, description="Possible error codes")
 
 

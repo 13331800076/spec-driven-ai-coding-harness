@@ -26,7 +26,9 @@ class TestCaseGenerator:
 
         return test_cases
 
-    def _build_test_case(self, ac, story_id: str, counter: int) -> TestCase:
+    from spec_harness.models import AcceptanceCriterion
+
+    def _build_test_case(self, ac: AcceptanceCriterion, story_id: str, counter: int) -> TestCase:
         permission = "relevant permission"
         if "does not have" in ac.given:
             permission = "without the required permission"
