@@ -332,10 +332,14 @@ class RequirementParser:
                 for n in (2, 1):
                     if len(words) >= n:
                         candidate = " ".join(words[-n:]).lower().rstrip("s")
-                        if (candidate and len(candidate) > 3 and candidate not in self.STOP_WORDS
-                            and not candidate.endswith(("ing", "ed", "ly"))):
-                                objects.add(candidate.replace(" ", "_"))
-                                break
+                        if (
+                            candidate
+                            and len(candidate) > 3
+                            and candidate not in self.STOP_WORDS
+                            and not candidate.endswith(("ing", "ed", "ly"))
+                        ):
+                            objects.add(candidate.replace(" ", "_"))
+                            break
 
         # Known ERP objects from text
         erp_objects = [

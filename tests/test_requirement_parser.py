@@ -71,9 +71,9 @@ def test_extract_features(parser):
 
 def test_extract_constraints(parser):
     text = (
-    "Only users with proper permissions can delete attachments. "
-    "The system should record audit logs."
-)
+        "Only users with proper permissions can delete attachments. "
+        "The system should record audit logs."
+    )
     spec = parser._extract(text, "test")
     constraints_lower = [c.lower() for c in spec.constraints]
     assert any("permission" in c for c in constraints_lower)

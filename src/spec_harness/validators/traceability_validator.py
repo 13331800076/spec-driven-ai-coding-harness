@@ -138,7 +138,7 @@ class QualityGate:
                 if keyword in ai_task.title.lower() or keyword in ai_task.goal.lower():
                     issues.append(
                         f"{ai_task.id} contains vague keyword '{keyword}'. "
-                    f"Use specific, measurable goals."
+                        f"Use specific, measurable goals."
                     )
 
         passed = len(issues) == 0
